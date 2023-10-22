@@ -15,8 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
+    private var selectedMenuItemId: Int = R.id.nav_user_data
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +28,37 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, UserDataFragment()).commit()
+        } else {
+            savedInstanceState.getInt(SELECTED_MENU_ITEM, R.id.nav_user_data)
+                .also { selectedMenuItemId = it }
+            binding.bottomNavigation.selectedItemId = selectedMenuItemId
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(SELECTED_MENU_ITEM, selectedMenuItemId)
+    }
+
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val selectedFragment = when (item.itemId) {
+        getFragmentById(item.itemId)?.let { selectedFragment ->
+            selectedMenuItemId = item.itemId
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, selectedFragment).commit()
+            true
+        } ?: false
+    }
+
+    private fun getFragmentById(menuId: Int): Fragment? {
+        return when (menuId) {
             R.id.nav_user_data -> UserDataFragment()
             R.id.nav_exercise -> ExerciseFragment()
             R.id.nav_sleep -> SleepFragment()
             else -> null
         }
+    }
 
-        selectedFragment?.let {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, it).commit()
-            true
-        } ?: false
+    companion object {
+        private const val SELECTED_MENU_ITEM = "selected_menu_item"
     }
 }
