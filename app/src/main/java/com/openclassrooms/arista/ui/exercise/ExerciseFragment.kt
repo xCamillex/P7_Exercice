@@ -101,25 +101,44 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
         val durationStr = durationEditText.text.toString().trim()
         val intensityStr = intensityEditText.text.toString().trim()
 
-        if (durationStr.isBlank() || intensityStr.isBlank()) {
+        val isDurationValid = validateDuration(durationStr)
+        val isIntensityValid = validateIntensity(intensityStr)
+
+        if (!isDurationValid || !isIntensityValid) return
+
+        val duration = durationStr.toInt()
+        val intensity = intensityStr.toInt()
+        val category = categorySpinner.selectedItem as ExerciseCategory
+
+        val newExercise = Exercise(LocalDateTime.now(), duration, category, intensity)
+        viewModel.addNewExercise(newExercise)
+    }
+
+    private fun validateDuration(duration: String): Boolean {
+        if (duration.isBlank()) {
             Toast.makeText(requireContext(), R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
-            return
+            return false
+        }
+        return true
+    }
+
+    private fun validateIntensity(intensity: String): Boolean {
+        if (intensity.isBlank()) {
+            Toast.makeText(requireContext(), R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
+            return false
         }
 
-        try {
-            val duration = durationStr.toInt()
-            val intensity = intensityStr.toInt()
-
-            if (intensity in 1..10) {
-                val category = categorySpinner.selectedItem as ExerciseCategory
-                val newExercise = Exercise(LocalDateTime.now(), duration, category, intensity)
-                viewModel.addNewExercise(newExercise)
-            } else {
+        return try {
+            val intensityValue = intensity.toInt()
+            if (intensityValue !in 1..10) {
                 Toast.makeText(
                     requireContext(),
                     R.string.intensity_should_be_between_1_and_10,
                     Toast.LENGTH_SHORT
                 ).show()
+                false
+            } else {
+                true
             }
         } catch (e: NumberFormatException) {
             Toast.makeText(
@@ -127,8 +146,10 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
                 R.string.invalid_input_please_enter_valid_numbers,
                 Toast.LENGTH_SHORT
             ).show()
+            false
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
