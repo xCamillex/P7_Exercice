@@ -11,17 +11,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.arista.R
 import com.openclassrooms.arista.databinding.FragmentExerciseBinding
 import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 
 interface DeleteExerciseInterface {
     fun deleteExercise(exercise: Exercise?)
 }
+
 @AndroidEntryPoint
 class ExerciseFragment : Fragment(), DeleteExerciseInterface {
 
@@ -35,7 +38,7 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentExerciseBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,8 +57,10 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
     }
 
     private fun observeExercises() {
-        viewModel.exercisesLiveData.observe(viewLifecycleOwner) { exercises ->
-            exerciseAdapter.submitList(exercises)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.exercisesFlow.collect { exercises ->
+                exerciseAdapter.submitList(exercises)
+            }
         }
     }
 
@@ -110,10 +115,18 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
                 val newExercise = Exercise(LocalDateTime.now(), duration, category, intensity)
                 viewModel.addNewExercise(newExercise)
             } else {
-                Toast.makeText(requireContext(), R.string.intensity_should_be_between_1_and_10, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    R.string.intensity_should_be_between_1_and_10,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } catch (e: NumberFormatException) {
-            Toast.makeText(requireContext(), R.string.invalid_input_please_enter_valid_numbers, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                R.string.invalid_input_please_enter_valid_numbers,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

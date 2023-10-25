@@ -8,6 +8,9 @@ import com.openclassrooms.arista.domain.usecase.AddNewExerciseUseCase
 import com.openclassrooms.arista.domain.usecase.DeleteExerciseUseCase
 import com.openclassrooms.arista.domain.usecase.GetAllExercisesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,7 +19,8 @@ class ExerciseViewModel @Inject constructor(
     private val addNewExerciseUseCase: AddNewExerciseUseCase,
     private val deleteExerciseUseCase: DeleteExerciseUseCase
 ) : ViewModel() {
-    val exercisesLiveData = MutableLiveData<List<Exercise>>()
+    private val _exercisesFlow = MutableStateFlow<List<Exercise>>(emptyList())
+    val exercisesFlow: StateFlow<List<Exercise>> = _exercisesFlow.asStateFlow()
 
     init {
         loadAllExercises()
@@ -29,7 +33,7 @@ class ExerciseViewModel @Inject constructor(
 
     private fun loadAllExercises() {
         val exercises = getAllExercisesUseCase.execute()
-        exercisesLiveData.value = exercises
+        _exercisesFlow.value = exercises
     }
 
     fun addNewExercise(exercise: Exercise) {

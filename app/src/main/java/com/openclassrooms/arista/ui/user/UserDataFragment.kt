@@ -9,6 +9,8 @@ import com.openclassrooms.arista.databinding.FragmentUserDataBinding
 import com.openclassrooms.arista.domain.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -27,11 +29,13 @@ class UserDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.userLiveData.observe(viewLifecycleOwner) { user: User? ->
-            user?.let {
-                binding.etName.setText(it.name)
-                binding.etEmail.setText(it.email)
-                binding.etPassword.setText(it.password)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userFlow.collect { user: User? ->
+                user?.let {
+                    binding.etName.setText(it.name)
+                    binding.etEmail.setText(it.email)
+                    binding.etPassword.setText(it.password)
+                }
             }
         }
     }

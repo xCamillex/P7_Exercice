@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.arista.databinding.FragmentSleepBinding
 import com.openclassrooms.arista.domain.model.Sleep
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class SleepFragment : Fragment() {
 
@@ -25,20 +28,22 @@ class SleepFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSleepBinding.inflate(inflater, container, false)
-        setupObservers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObservers()
         binding.sleepRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.sleepRecyclerview.adapter = sleepAdapter
         viewModel.fetchSleeps()
     }
 
     private fun setupObservers() {
-        viewModel.sleeps.observe(viewLifecycleOwner) { sleeps ->
-            sleepAdapter.updateData(sleeps)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.sleeps.collect { sleeps ->
+                sleepAdapter.updateData(sleeps)
+            }
         }
     }
 
