@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.arista.databinding.FragmentSleepBinding
-import com.openclassrooms.arista.domain.model.Sleep
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

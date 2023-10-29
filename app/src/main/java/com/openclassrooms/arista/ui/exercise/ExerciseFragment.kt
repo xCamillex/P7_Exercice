@@ -110,7 +110,8 @@ class ExerciseFragment : Fragment(), DeleteExerciseInterface {
         val intensity = intensityStr.toInt()
         val category = categorySpinner.selectedItem as ExerciseCategory
 
-        val newExercise = Exercise(LocalDateTime.now(), duration, category, intensity)
+        val newExercise =
+            Exercise(System.currentTimeMillis(), LocalDateTime.now(), duration, category, intensity)
         viewModel.addNewExercise(newExercise)
     }
 
