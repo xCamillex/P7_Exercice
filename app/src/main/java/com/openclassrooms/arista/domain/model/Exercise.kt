@@ -1,7 +1,6 @@
 package com.openclassrooms.arista.domain.model
 
-import org.threeten.bp.LocalDateTime
-import java.util.Objects
+import java.time.LocalDateTime
 
 data class Exercise(
     val id: Long? = null,

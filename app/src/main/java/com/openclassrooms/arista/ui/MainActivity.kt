@@ -1,11 +1,9 @@
 package com.openclassrooms.arista.ui
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.openclassrooms.arista.R
 import com.openclassrooms.arista.databinding.ActivityMainBinding
 import com.openclassrooms.arista.ui.exercise.ExerciseFragment
@@ -23,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(navListener)
+        binding.bottomNavigation.setOnItemSelectedListener(navListener)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(SELECTED_MENU_ITEM, selectedMenuItemId)
     }
 
-    private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val navListener = NavigationBarView.OnItemSelectedListener { item ->
         getFragmentById(item.itemId)?.let { selectedFragment ->
             selectedMenuItemId = item.itemId
             supportFragmentManager.beginTransaction()

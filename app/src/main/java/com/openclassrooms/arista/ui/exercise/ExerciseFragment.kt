@@ -19,7 +19,7 @@ import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 interface DeleteExerciseInterface {
     fun deleteExercise(exercise: Exercise?)

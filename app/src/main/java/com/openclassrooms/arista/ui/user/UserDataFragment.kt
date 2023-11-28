@@ -34,7 +34,6 @@ class UserDataFragment : Fragment() {
                 user?.let {
                     binding.etName.setText(it.name)
                     binding.etEmail.setText(it.email)
-                    binding.etPassword.setText(it.password)
                 }
             }
         }

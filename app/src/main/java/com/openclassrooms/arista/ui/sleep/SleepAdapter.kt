@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.arista.R
 import com.openclassrooms.arista.domain.model.Sleep
-import com.openclassrooms.arista.ui.sleep.SleepAdapter.SleepViewHolder
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter
 
-class SleepAdapter(private var sleeps: List<Sleep>) : RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
+class SleepAdapter(private var sleeps: List<Sleep>) :
+    RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_sleep, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_sleep, parent, false)
         return SleepViewHolder(itemView)
     }
 
@@ -28,9 +29,9 @@ class SleepAdapter(private var sleeps: List<Sleep>) : RecyclerView.Adapter<Sleep
     override fun getItemCount() = sleeps.size
 
     inner class SleepViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var tvStartTime: TextView
-        lateinit var tvDuration: TextView
-        lateinit var tvQuality: TextView
+        var tvStartTime: TextView
+        var tvDuration: TextView
+        var tvQuality: TextView
 
         init {
             tvStartTime = itemView.findViewById(R.id.tv_start_time)

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.arista.R
 import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.ui.exercise.ExerciseAdapter.ExerciseViewHolder
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter
 
 class ExerciseAdapter(private val context: DeleteExerciseInterface) :
     ListAdapter<Exercise, ExerciseViewHolder>(
@@ -31,7 +31,7 @@ class ExerciseAdapter(private val context: DeleteExerciseInterface) :
         holder.tvDuration.text = String.format("Duration: %d minutes", exercise.duration)
         holder.tvCategory.text = String.format("Category: %s", exercise.category.toString())
         holder.tvIntensity.text = String.format("Intensity: %d", exercise.intensity)
-        holder.ivDelete.setOnClickListener { view: View? -> context.deleteExercise(exercise) }
+        holder.ivDelete.setOnClickListener { _: View? -> context.deleteExercise(exercise) }
     }
 
     inner class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

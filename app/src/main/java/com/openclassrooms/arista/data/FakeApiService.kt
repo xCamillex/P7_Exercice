@@ -4,14 +4,14 @@ import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import com.openclassrooms.arista.domain.model.Sleep
 import com.openclassrooms.arista.domain.model.User
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import java.util.Arrays
 import java.util.Optional
 
 class FakeApiService {
 
     // Static data
-    var user: User = User("John Doe", "johndoe@example.com", "password123")
+    var user: User = User("John Doe", "johndoe@example.com")
 
     private val sleepData = listOf(
         Sleep(LocalDateTime.now().minusDays(1), 7, 8),
@@ -25,7 +25,7 @@ class FakeApiService {
             2,
             LocalDateTime.now().minusDays(1).minusHours(3),
             45,
-            ExerciseCategory.Natation,
+            ExerciseCategory.Swimming,
             6
         ),
         Exercise(

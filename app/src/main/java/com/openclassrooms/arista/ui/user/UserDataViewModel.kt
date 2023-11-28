@@ -1,6 +1,5 @@
 package com.openclassrooms.arista.ui.user
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.arista.domain.model.User
 import com.openclassrooms.arista.domain.usecase.GetUserUsecase
