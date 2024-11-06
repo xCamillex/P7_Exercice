@@ -9,10 +9,13 @@ data class SleepDto(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long = 0,
+
     @ColumnInfo(name = "start_time")
     var startTime: Long,
+
     @ColumnInfo(name = "duration")
     var duration: Int,
+
     @ColumnInfo(name = "quality")
     var quality: Int
 )

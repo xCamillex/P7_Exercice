@@ -10,18 +10,14 @@ data class ExerciseDto(
     @ColumnInfo(name = "id")
     var id: Long = 0,
 
-
     @ColumnInfo(name = "start_time")
     var startTime: Long,
-
 
     @ColumnInfo(name = "duration")
     var duration: Int,
 
-
     @ColumnInfo(name = "category")
     var category: String,
-
 
     @ColumnInfo(name = "intensity")
     var intensity: Int
