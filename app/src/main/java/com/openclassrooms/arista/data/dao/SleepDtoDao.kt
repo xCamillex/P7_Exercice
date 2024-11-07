@@ -14,7 +14,7 @@ interface SleepDtoDao {
 
     // Récupère tous les sommeils de la table "sleep" sous forme de Flow
     @Query("SELECT * FROM sleep")
-    suspend fun getAllSleeps(): Flow<List<SleepDto>>
+    fun getAllSleeps(): Flow<List<SleepDto>>
 
     // Supprime un sommeil de la table "sleep" en fonction de son id
     @Query("DELETE FROM sleep WHERE id = :id")

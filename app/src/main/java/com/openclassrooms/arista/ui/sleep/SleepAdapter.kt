@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.arista.R
 import com.openclassrooms.arista.domain.model.Sleep
 import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 class SleepAdapter(private var sleeps: List<Sleep>) :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
