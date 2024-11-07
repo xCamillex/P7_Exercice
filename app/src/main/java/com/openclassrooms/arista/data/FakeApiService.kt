@@ -10,7 +10,7 @@ import java.util.Optional
 
 class FakeApiService {
 
-    // Static data
+    /*// Static data
     var user: User = User("John Doe", "johndoe@example.com")
 
     private val sleepData = listOf(
@@ -52,5 +52,5 @@ class FakeApiService {
 
     fun deleteExercise(exercise: Exercise) {
         exerciseData.remove(exercise)
-    }
+    }*/
 }
